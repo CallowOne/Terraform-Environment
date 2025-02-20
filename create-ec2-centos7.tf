@@ -4,8 +4,20 @@ provider "aws" {
 }
 
 # VPC Data Source - using default VPC
-data "aws_vpc" "default" {
-  default = true
+data "aws_vpc" "selected" {
+  id = "vpc-0ee12fadcc523a709"
+}
+
+# Get first availability zone in the region
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+# Get the default subnet from the first specified VPC
+data "aws_subnet" "selected" {
+  vpc_id            = data.aws_vpc.selected.id
+  availability_zone = data.aws_availability_zones.available.names[0]
+  default_for_az    = true
 }
 
 # AMI Data Source - Getting latest CentOS 7 AMI
@@ -33,7 +45,7 @@ data "aws_ami" "centos7" {
 resource "aws_security_group" "centos_sg" {
   name        = "centos_sg"
   description = "Security group for CentOS instance"
-  vpc_id      = data.aws_vpc.default.id
+  vpc_id      = data.aws_vpc.selected.id
 
   # SSH access
   ingress {
@@ -60,9 +72,10 @@ resource "aws_security_group" "centos_sg" {
 resource "aws_instance" "centos_instance" {
   ami           = data.aws_ami.centos7.id
   instance_type = "t2.micro"  # Change this as needed
+  subnet_id     = "subnet-01accd23d7dceb8f4"
 
   vpc_security_group_ids = [aws_security_group.centos_sg.id]
-  key_name              = "your-key-pair-name"  # Replace with your key pair name
+  key_name              = "Access-RedHat-Servers"  # Replace with your key pair name
 
   root_block_device {
     volume_size = 20  # Size in GB
