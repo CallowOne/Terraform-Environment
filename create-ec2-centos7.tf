@@ -20,7 +20,8 @@ resource "aws_instance" "app_server" {
   availability_zone    = "us-east-1a"
   iam_instance_profile = "Role-EC2-General-Access"
   vpc_security_group_ids       = ["sg-06fc5798520efeed9"] 
-
+  key_name                     = "Access-RedHat-Servers"
+  count                        = 2
   tags = {
     Name = "CentOS7-Instance"
   }
