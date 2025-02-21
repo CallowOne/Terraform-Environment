@@ -22,6 +22,16 @@ resource "aws_instance" "app_server" {
   vpc_security_group_ids       = ["sg-06fc5798520efeed9"] 
   key_name                     = "Access-RedHat-Servers"
   count                        = 2
+  root_block_device {
+    delete_on_termination = true
+  }
+
+  user_data                    = <<EOF
+  #!/bin/bash
+  sudo echo "root:root" | chpasswd
+  EOF
+
+
   tags = {
     Name = "CentOS7-Instance"
   }
