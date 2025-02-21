@@ -19,7 +19,7 @@ resource "aws_instance" "app_server" {
   subnet_id            = "subnet-01accd23d7dceb8f4"
   availability_zone    = "us-east-1a"
   iam_instance_profile = "Role-EC2-General-Access"
-  sg                   = "sg-06fc5798520efeed9" 
+  vpc_security_group_ids       = ["sg-06fc5798520efeed9"] 
 
   tags = {
     Name = "CentOS7-Instance"
