@@ -54,7 +54,6 @@ resource "aws_instance" "centos7_server2" {
   }
 
   user_data                    = <<EOF
-  \#cloud-boothook
   \#!/bin/bash
   sudo echo "root:root" | chpasswd
   EOF
