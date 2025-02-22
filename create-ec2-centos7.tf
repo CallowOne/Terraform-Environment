@@ -16,12 +16,12 @@ provider "aws" {
 resource "aws_instance" "centos7_server1" {
   ami                   = "ami-07a3e4e203510f3eb"
   instance_type         = "t2.micro"
-  subnet_id             = "subnet-01accd23d7dceb8f4"
-  private_ip            = var.private-ip-1
+  subnet_id             = var.private-subnet-10-0-128-0
+  private_ip            = var.private-ip-2
   availability_zone     = "us-east-1a"
-  iam_instance_profile  = "Role-EC2-General-Access"
-  vpc_security_group_ids       = ["sg-06fc5798520efeed9"] 
-  key_name                     = "Access-RedHat-Servers"
+  iam_instance_profile  = var.iam-role
+  vpc_security_group_ids       =  var.security-group
+  key_name                     =  var.key-pair
 
   root_block_device {
     delete_on_termination = true
@@ -42,12 +42,12 @@ resource "aws_instance" "centos7_server1" {
 resource "aws_instance" "centos7_server2" {
   ami                   = "ami-07a3e4e203510f3eb"
   instance_type         = "t2.micro"
-  subnet_id             = "subnet-01accd23d7dceb8f4"
+  subnet_id             = var.private-subnet-10-0-128-0
   private_ip            = var.private-ip-2
   availability_zone     = "us-east-1a"
-  iam_instance_profile  = "Role-EC2-General-Access"
-  vpc_security_group_ids       = ["sg-06fc5798520efeed9"] 
-  key_name                     = "Access-RedHat-Servers"
+  iam_instance_profile  = var.iam-role
+  vpc_security_group_ids       =  var.security-group
+  key_name                     =  var.key-pair
   
   root_block_device {
     delete_on_termination = true
