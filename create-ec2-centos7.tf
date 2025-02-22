@@ -17,7 +17,7 @@ resource "aws_instance" "centos7_server1" {
   ami                   = "ami-07a3e4e203510f3eb"
   instance_type         = "t2.micro"
   subnet_id             = var.private-subnet-10-0-128-0
-  private_ip            = var.private-ip-2
+  private_ip            = var.private-ip-1
   availability_zone     = "us-east-1a"
   iam_instance_profile  = var.iam-role
   vpc_security_group_ids       =  var.security-group
