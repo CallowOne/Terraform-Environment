@@ -13,20 +13,48 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_instance" "app_server" {
-  ami                  = "ami-07a3e4e203510f3eb"
-  instance_type        = "t2.micro"
-  subnet_id            = "subnet-01accd23d7dceb8f4"
-  availability_zone    = "us-east-1a"
-  iam_instance_profile = "Role-EC2-General-Access"
+resource "aws_instance" "centos7_server1" {
+  ami                   = "ami-07a3e4e203510f3eb"
+  instance_type         = "t2.micro"
+  subnet_id             = "subnet-01accd23d7dceb8f4"
+  private_ip            = var.private-ip-1
+  availability_zone     = "us-east-1a"
+  iam_instance_profile  = "Role-EC2-General-Access"
   vpc_security_group_ids       = ["sg-06fc5798520efeed9"] 
   key_name                     = "Access-RedHat-Servers"
-  count                        = 2
+
   root_block_device {
     delete_on_termination = true
   }
 
   user_data                    = <<EOF
+  #cloud-boothook
+  #!/bin/bash
+  sudo echo "root:root" | chpasswd
+  EOF
+
+
+  tags = {
+    Name = "CentOS7-Instance"
+  }
+}
+
+resource "aws_instance" "centos7_server2" {
+  ami                   = "ami-07a3e4e203510f3eb"
+  instance_type         = "t2.micro"
+  subnet_id             = "subnet-01accd23d7dceb8f4"
+  private_ip            = var.private-ip-2
+  availability_zone     = "us-east-1a"
+  iam_instance_profile  = "Role-EC2-General-Access"
+  vpc_security_group_ids       = ["sg-06fc5798520efeed9"] 
+  key_name                     = "Access-RedHat-Servers"
+  
+  root_block_device {
+    delete_on_termination = true
+  }
+
+  user_data                    = <<EOF
+  #cloud-boothook
   #!/bin/bash
   sudo echo "root:root" | chpasswd
   EOF
