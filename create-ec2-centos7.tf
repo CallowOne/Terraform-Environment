@@ -13,8 +13,8 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_instance" "centos7_server1" {
-  ami                   = "ami-07a3e4e203510f3eb"
+resource "aws_instance" "rhel9_server1" {
+  ami                   = "ami-0c7af5fe939f2677f"
   instance_type         = "t2.micro"
   subnet_id             = var.private-subnet-10-0-128-0
   private_ip            = var.private-ip-1
@@ -26,21 +26,14 @@ resource "aws_instance" "centos7_server1" {
   root_block_device {
     delete_on_termination = true
   }
-
-  user_data                    = <<EOF
-  \#cloud-boothook
-  \#!/bin/bash
-  sudo echo "root:root" | chpasswd
-  EOF
-
-
+  user_data                    = file("user_data")
   tags = {
-    Name = "CentOS7-Instance"
+    Name = "RHEL9-Instance"
   }
 }
 
-resource "aws_instance" "centos7_server2" {
-  ami                   = "ami-07a3e4e203510f3eb"
+resource "aws_instance" "rhel9_server2" {
+  ami                   = "ami-0c7af5fe939f2677f"
   instance_type         = "t2.micro"
   subnet_id             = var.private-subnet-10-0-128-0
   private_ip            = var.private-ip-2
@@ -48,18 +41,10 @@ resource "aws_instance" "centos7_server2" {
   iam_instance_profile  = var.iam-role
   vpc_security_group_ids       =  var.security-group
   key_name                     =  var.key-pair
-  
   root_block_device {
     delete_on_termination = true
   }
-
-  user_data                    = <<EOF
-  \#!/bin/bash
-  sudo echo "root:root" | chpasswd
-  EOF
-
-
   tags = {
-    Name = "CentOS7-Instance"
+    Name = "RHEL9-Instance"
   }
 }
