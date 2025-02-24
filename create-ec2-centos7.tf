@@ -14,7 +14,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "rhel9_server1" {
-  ami                   = "ami-0c7af5fe939f2677f"
+  ami                   = "ami-001a8b08763eac3b8"
   instance_type         = "t2.micro"
   subnet_id             = var.private-subnet-10-0-128-0
   private_ip            = var.private-ip-1
@@ -33,7 +33,7 @@ resource "aws_instance" "rhel9_server1" {
 }
 
 resource "aws_instance" "rhel9_server2" {
-  ami                   = "ami-0c7af5fe939f2677f"
+  ami                   = "ami-001a8b08763eac3b8"
   instance_type         = "t2.micro"
   subnet_id             = var.private-subnet-10-0-128-0
   private_ip            = var.private-ip-2
